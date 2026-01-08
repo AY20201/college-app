@@ -41,7 +41,7 @@ export default function PhoneNumberPage(){
 
     function submitNumber(){
         const checkValid = phoneInput.current?.isValidNumber(phoneNumberText);
-        if(!checkValid){
+        if(phoneNumberText && !checkValid){
             setShowNotValid(true);
             return;
         }

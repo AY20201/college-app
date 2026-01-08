@@ -49,9 +49,7 @@ export default function AddGroupForm() {
         <SafeAreaProvider>
             <SafeAreaView style={styles.root}>
                 <ScrollView style={styles.base} keyboardShouldPersistTaps="handled">
-                    <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', marginLeft: -2}} onPress={() => router.navigate({ pathname: '/status-page' })
-                        //router.navigate({ pathname: '/detail-page', params: {name: name, desc: desc, isPrivate: isPrivate, isSearchable: isSearchable, id: id, owner: owner, isJoined: "true", returnPath: returnPath} })
-                        }>
+                    <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', marginLeft: -2}} onPress={() => router.back()}>
                         <Entypo name="chevron-left" size={35} color='rgb(211, 211, 211)' />
                         <Text style={[styles.text, { fontSize: 40 }]}>Add group</Text>
                     </TouchableOpacity>

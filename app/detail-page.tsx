@@ -9,6 +9,19 @@ import { useCallback, useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
+export function formatClassYear(name: string, email: string){
+    const splitEmail = email.split("@");
+    if(splitEmail[1] === "dartmouth.edu"){
+        if(splitEmail[0].length > 1){
+            const numString = splitEmail[0].slice(-2);
+            if(Number.isFinite(Number(numString))){
+                return name + ` '${numString}`;
+            }
+        }
+    }
+    return name;
+}
+
 const modifyPrivacyStatus = async(groupId: string, newPrivacyStatus: boolean, useSearchable?: boolean) => {
     try {
         const res = await fetch("http://127.0.0.1:5000/modify_privacy_status", {
@@ -80,6 +93,8 @@ export default function DetailPage() {
     }>();
     
     const isJoinedBool = isJoined === "true";
+    const splitOwner = owner.split("/");
+    console.log(splitOwner);
 
     useFocusEffect(
         useCallback(() => {
@@ -98,7 +113,7 @@ export default function DetailPage() {
         }
         
         if(owner){
-            setUserIsOwner(getUserProperty("id") == owner.split(" ")[0]);
+            setUserIsOwner(getUserProperty("id") == splitOwner[0]);
         }
     }, [])
 
@@ -162,7 +177,7 @@ export default function DetailPage() {
                         </View>
                     }
                     {owner && 
-                        <Text style={styles.detailsText}>Created by {owner.split(" ")[1]}</Text>
+                        <Text style={styles.detailsText}>Created by {formatClassYear(splitOwner[1], splitOwner[2])}</Text>
                     }
                     { isJoinedBool &&
                         <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', marginVertical: 10}} onPress={() =>

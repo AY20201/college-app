@@ -38,7 +38,6 @@ export const storeUserData = async(user : UserData) => {
             body: JSON.stringify({ userId: user.id, userName: user.name, email: user.email, phoneNumber: user.phoneNumber })
         });
         const json = await res.json();
-        console.log(json);
 
     } catch (e) {
         console.log("Error storing using data " + e);
@@ -117,7 +116,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
             });
     
             const json = await res.json();
-            console.log(json);
+            //console.log(json);
             //const updatedGroups = groups.map(group => group.id === groupId ? {...group, isJoined: true} : group)
         } catch (err) {
             console.error("Request failed:", err);
@@ -135,7 +134,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
             });
     
             const json = await res.json();
-            console.log(json);
+            //console.log(json);
             //const updatedGroups = groups.map(group => group.id === groupId ? {...group, isJoined: true} : group)
         } catch (err) {
             console.error("Request failed:", err);
@@ -154,7 +153,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
             });
     
             const json = await res.json();
-            console.log(json);
+            //console.log(json);
         } catch (err) {
             console.error("Request failed:", err);
         }

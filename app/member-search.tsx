@@ -21,7 +21,7 @@ export default function MemberSearch(){
 
     //need to filter out users who are already in the group
     const searchUsers = async() => {
-        const res = await fetch(`http://127.0.0.1:5000/filter_users?search_query=${currentSearch}&owner_id=${ownerId}`, {
+        const res = await fetch(`http://127.0.0.1:5000/filter_users?search_query=${currentSearch}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -58,7 +58,7 @@ export default function MemberSearch(){
                         setIsAdded(true);
                         addUserGroup(groupId, userId, userName);
                     }}>
-                        <Text style={[styles.text, {fontSize: 16}]}>{isAdded ? "Added" : "Add"}</Text>
+                        <Text style={[styles.text, {fontSize: 16}]}>{isAdded ? (userId == ownerId ? "Owner" : "Added") : "Add"}</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.divider}/>

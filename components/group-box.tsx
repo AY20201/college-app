@@ -129,6 +129,9 @@ function ActivityBox({ request } : { request: ActivityRequest }) {
     const { getUserProperty, likeActivity } = useUser();
 
     const timePosted = formatTime(request.timePosted);
+    
+    const splitName = request.name.split(" ");
+    const personNameAbbreviated = splitName.length > 1 ? splitName[0] + " " + splitName[1].charAt(0) : request.name;
 
     useEffect(() => {
         const userId = getUserProperty("id");
@@ -136,7 +139,7 @@ function ActivityBox({ request } : { request: ActivityRequest }) {
             setIsLiked(request.likes.includes(userId));
         }
         setLikeCount(request.likes.length);
-    }, [])
+    }, []);
     
     return (
         <View style={styles.requestBox}>
@@ -144,7 +147,7 @@ function ActivityBox({ request } : { request: ActivityRequest }) {
                     pathname: '/activity-detail-page',
                     params: { requestStr: JSON.stringify(request), userId: getUserProperty("id"), time: timePosted }
                 })}>
-                <Text style={styles.activityText}>{request.name} is down for {request.activity}!</Text>
+                <Text style={styles.activityText}>{personNameAbbreviated} is down for {request.activity}!</Text>
                 <Text style={styles.timeText}>{timePosted}</Text>
             </TouchableOpacity>
             {/* Like button with like count */}
@@ -152,6 +155,7 @@ function ActivityBox({ request } : { request: ActivityRequest }) {
                 <TouchableOpacity onPress={() => {
                     setIsLiked(true);
                     setLikeCount(likeCount + 1);
+                    request.likes.push("New like!");
                     likeActivity(request.requestId);
                 }} disabled={isLiked}>
                     {/* The like icon will be the outline only "like" icon when not liked yet, it will be the filled in "dislike" icon flipped vertically when liked */}
@@ -180,12 +184,15 @@ export default function GroupBox({ group, addActivity }: GroupBoxProps) {
 
     useEffect(() =>
     {
+        console.log("refreshed")
         setLocalActivityRequests(group.activityRequests);
+        setIsAdding(false);
+        setNewActivityRequest(undefined);
         //const nameSplit = personName.split(" ");
         //Turns something like "Alex Young" into "Alex Y"
         //setPersonNameAbbreviated(nameSplit[0] + (nameSplit.length > 1 ? " " + nameSplit[1].charAt(0) : ""));
         //setPersonNameAbbreviated(nameSplit[0] + (nameSplit.length > 1 ? " " + nameSplit[1].charAt(0) : ""));
-    }, []);
+    }, [group.activityRequests]);
 
     useEffect(() => {
         if(isAdding){
@@ -195,6 +202,10 @@ export default function GroupBox({ group, addActivity }: GroupBoxProps) {
             currentHeight.value = withTiming(0, { duration: 250 });
         }
     }, [isAdding]);
+
+    useEffect(() => {
+        currentHeight.value = 0; //called when component first mounts to allow animation to happen the first time
+    }, []);
 
     function showInput(){
         if(newActivityRequest){
@@ -232,6 +243,7 @@ export default function GroupBox({ group, addActivity }: GroupBoxProps) {
                 {isAdding &&
                 //temporary activity box with a text input field that will be filled in by the user
                     (newActivityRequest ?
+                        // Issue: if a deleted activity is still stores as "newActivityRequest" it will not be deleted
                         <ActivityBox request={newActivityRequest}/>
                         :
                         <EmptyActivityBox addActivity={addActivity} addingCallback={setIsAdding} setNewActivity={setNewActivityRequest} groupId={group.id}/>

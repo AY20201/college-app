@@ -137,6 +137,10 @@ export default function SearchPage(){
                                 <Text style={styles.centerText}>{"No results found"}</Text>
                             </View>
                         }
+                        ListFooterComponent={
+                            <View style={{height: 100}}>
+                                <Text style={[styles.footerText, { fontSize: 15, marginTop: 15, color: 'rgb(111, 111, 111, 0.7)' }]}>Publicly visible groups will appear here</Text>
+                            </View>}
                         refreshControl={
                             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['rgba(111, 111, 111, 0.5)']} tintColor={'rgba(111, 111, 111, 0.5)'}/>
                         }
@@ -156,11 +160,11 @@ const styles = StyleSheet.create({
         flex: 1,
         marginHorizontal: 10
     },
-    text: {
-        color: 'rgb(211, 211, 211)',
-        fontSize: 25,
-        fontFamily: 'InstrumentSans-Medium',
-        marginVertical: 10
+    footerText: {
+        textAlign: 'center',
+        color: 'rgb(111, 111, 111)',
+        fontSize: 20,
+        fontFamily: 'InstrumentSans-Medium' //add a font later, maybe InstrumentSans?
     },
     searchBar: {
         width: '100%',

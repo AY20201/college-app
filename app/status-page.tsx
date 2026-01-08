@@ -104,7 +104,7 @@ export default function StatusPage() {
     //makes a request to Flask to add group to postgres database
     const addGroup = async(name: string, description: string, isPrivate: boolean, isSearchable: boolean) => {
         try {
-            const owner = getUserProperty("id") + " " + getUserProperty("email");
+            const owner = getUserProperty("id") + "/" + getUserProperty("name") + "/" + getUserProperty("email");
             const newGroup : Group = {"name": name, "description": description, "isPrivate": isPrivate, "isSearchable": isSearchable,  "id": "", "owner": owner, "activityRequests": []};
             // if(groups.length > 0 && groups[groups.length - 1] == newGroup){
             //     return;
@@ -156,9 +156,7 @@ export default function StatusPage() {
     }, []);
 
     useEffect(() => {
-        console.log("Loaded status page");
         if(name && desc !== undefined && isPrivate && isSearchable && !pageLoaded){
-            console.log("Called add group");
             addGroup(name, desc, isPrivate === "true", isSearchable === "true");
         } else {
             getGroups();
@@ -195,7 +193,10 @@ export default function StatusPage() {
                     <KeyboardAwareFlatList
                         data={groups}
                         renderItem={({ item }) => <GroupBox group={item} addActivity={addActivityRequest}/>}
-                        ListFooterComponent={<View style={{height: 100}}/>}
+                        ListFooterComponent={
+                        <View style={{height: 100}}>
+                            <Text style={[styles.text, { fontSize: 15, marginTop: 15, color: 'rgb(111, 111, 111, 0.7)' }]}>Joined groups and new activites will appear here</Text>
+                        </View>}
                         refreshControl={
                             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['rgba(111, 111, 111, 0.5)']} tintColor={'rgba(111, 111, 111, 0.5)'}/>
                         }

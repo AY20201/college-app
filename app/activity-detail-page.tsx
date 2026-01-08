@@ -3,6 +3,7 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { router, useLocalSearchParams } from 'expo-router';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { formatClassYear } from './detail-page';
 import { sendSMS } from './likes-page';
 import { ActivityRequest } from './status-page';
 
@@ -14,17 +15,19 @@ export default function ActivityDetailPage() {
     }>();
     const request: ActivityRequest = JSON.parse(requestStr);
 
+    
+
     return (
         <SafeAreaProvider>
             <SafeAreaView style={styles.root}>
                 <ScrollView style={styles.base}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                        <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', marginLeft: -8}} onPress={() => router.navigate({ pathname: '/status-page' }) }>
+                        <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', marginLeft: -8}} onPress={() => router.back() }>
                             <Entypo name="chevron-left" size={35} color='rgb(211, 211, 211)' />
                             <Text style={[styles.text, { fontSize: 40 }]}>{request.name}</Text>
                         </TouchableOpacity>
                         { (request.phoneNumber && !request.hideNumber && request.userId != userId)  &&
-                            <TouchableOpacity onPress={() => sendSMS("Hey everyone! Let's do the activity.", undefined, request.phoneNumber)}>
+                            <TouchableOpacity style={{marginTop: 3}} onPress={() => sendSMS("Hey everyone! Let's do the activity.", undefined, request.phoneNumber)}>
                                 <FontAwesome6 name="message" size={35} color='rgb(211, 211, 211)' />
                             </TouchableOpacity>
                         }
@@ -37,8 +40,9 @@ export default function ActivityDetailPage() {
                     <View style={styles.descriptionContainer}>
                         <Text style={styles.descriptionText}>{request.location ? request.location : "No location"}</Text>
                     </View>
-                    <Text style={styles.detailsText}>Posted by {request.email} at {time}</Text>
-                    { request.likes.length > 0 && <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', marginVertical: 10}} onPress={() => 
+                    <View style={{marginVertical: 15, height: 1, backgroundColor: 'rgb(111, 111, 111)'}}></View>
+                    <Text style={styles.detailsText}>{formatClassYear(request.name, request.email)}  ·  {time}</Text>
+                    { request.likes.length > 0 && <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', marginVertical: 20}} onPress={() => 
                         router.navigate({pathname: '/likes-page', params: { requestId: request.requestId, groupId: request.groupId }})
                         }>
                         <Text style={styles.likesText}>View likes ({request.likes.length})</Text>
@@ -78,7 +82,7 @@ const styles = StyleSheet.create({
     },
     descriptionContainer: {
         marginVertical: 10,
-        borderWidth: 2,
+        borderWidth: 1,
         borderRadius: 3,
         borderColor: 'rgba(180, 180, 180, 0.25)',
         backgroundColor: 'rgba(255, 255, 255, 0.04)',
