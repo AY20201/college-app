@@ -1,9 +1,23 @@
-Thank you for checking out DSocial.
+# DSocial
 
-Even at Dartmouth, a school with just over 4,000 undergrads that most would consider a "small," making friends and seeing them on a regular basis is hard. As a first year, I'd consider this aspect of social life the hardest part of being in college. Even going to our primary dining fall, FOCO, at the busiest times every day, I often don't recognize anyone there, and to see friends, I have to text them to schedule meetups.
+An app to make planning activities easier
+
+## Description
+
+Even at Dartmouth, a school with just over 4,000 undergrads that most would consider a "small," making friends and seeing them on a regular basis is hard. As a first year, I'd consider this aspect of social life the hardest part of being in college. Even going to our primary dining fall, Foco, at the busiest times every day, I often don't recognize anyone there, and to see friends, I have to text them to schedule meetups.
 
 That's why I created DSocial. Let's say you are close with some of the people on your dorm floor and you want to see them at lunch--but you never do. Instead of hoping for the best every time you walk into the dining hall, DSocial allows you to create an online group with them and post activity plans to that group. If any of them are interested in meeting you, they can simply "like" the activity by pressing a virtual thumbs up. Likes are visible to anyone in the group, and, depending on individual privacy settings, anyone in the group can message some or all activity "likers" via SMS, if you haven't shared contact info already. Activity plans also dissapear after 45 minutes: if they don't get traction, they don't linger there forever. This eliminates the (what I would consider) slightly awkward step of texting the group chat when you feel a little bit lonely and not getting any response half the time. Activities obviously don't apply to lunch only, either. You can post about absolutely anything, from workouts and hikes to games of pool in Collis or your plans to watch an upcoming football game.  
+
+<img width="200" alt="Group page" src="https://github.com/user-attachments/assets/8fb170cf-7dbf-4137-a63d-e46ecbf62369" />
+<img width="200" alt="Description page" src="https://github.com/user-attachments/assets/f1f6b9e8-fe5b-41fe-bf20-94d2ed2219fb" />
+<img width="200" alt="Search page" src="https://github.com/user-attachments/assets/c13bd3fa-a950-41a7-91af-749969cc5463" />
+<img width="200" alt="Group form page" src="https://github.com/user-attachments/assets/5dfc7eb3-9cde-4c10-8f18-bd8611fe4aa1" />
+
 
 This style of communcation--pressing a single button to say "yes" to an activity and ignoring it otherwise--is designed to reduce the pressure that comes with planning activities or receiving invites. My hope is that the app will allow friends to see each other more often and reduce the frustration of wanting to see people but not knowing how to make it happen.
 
 As for the technical design of the app, I wrote the frontend with React Native (which I have used before) and Typescript (which I was using for the first time). The backend is made up of a Postgres database to store group, activity, and user data, and a Python server created with Flask to handle requests made from the frontend. 
+
+## Installation
+
+Install the app here (need to add link)
