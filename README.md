@@ -1,50 +1,5 @@
-# Welcome to your Expo app 👋
+Thank you for checking out DSocial.
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Even at Dartmouth, a school with just over 4,000 undergrads that most would consider a "small," making friends and seeing them on a regular basis is hard. As a first year, I'd consider this aspect of social life the hardest part of being in college. Even going to our primary dining fall, FOCO, at the busiest times every day, I often don't recognize anyone there, and to see friends, I have to text them to schedule meetups.
 
-## Get started
-
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+That's why I created DSocial. DSocial allows friend groups, clubs, or any other kind of community on campus to create online spaces where individuals can post activity plans others can see. To respond affirmatively to a planned activity, one can simply "like" it with a virtual thumbs up. Depending on individual privacy settings, any group member can also message all or some of the people who liked an activity via SMS. This eliminates the (what I would consider) slightly awkward step of texting your friends when you feel a little bit lonely and want social interaction. This style of communcation is designed
