@@ -166,9 +166,9 @@ export default function StatusPage() {
     
     useFocusEffect(
         useCallback(() => {
-            if(pageLoaded){
+            if(!name){ //only call this when not trying to add a group, otherwise it will be called twice
                 getGroups();
-            }
+            }        
         }, [])
     ); //technically doesn't matter what groupCount is right now, as long as it is changing at the right time
 
@@ -194,7 +194,7 @@ export default function StatusPage() {
                         data={groups}
                         renderItem={({ item }) => <GroupBox group={item} addActivity={addActivityRequest}/>}
                         ListFooterComponent={
-                        <View style={{height: 100}}>
+                        <View style={{height: 150}}>
                             <Text style={[styles.text, { fontSize: 15, marginTop: 15, color: 'rgb(111, 111, 111, 0.7)' }]}>Joined groups and new activites will appear here</Text>
                         </View>}
                         refreshControl={

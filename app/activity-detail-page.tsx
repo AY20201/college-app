@@ -8,14 +8,13 @@ import { sendSMS } from './likes-page';
 import { ActivityRequest } from './status-page';
 
 export default function ActivityDetailPage() {
-    const { requestStr, userId, time } = useLocalSearchParams<{
+    const { requestStr, userId, likeCount, time } = useLocalSearchParams<{
         requestStr: string
         userId: string
+        likeCount: string
         time: string
     }>();
     const request: ActivityRequest = JSON.parse(requestStr);
-
-    
 
     return (
         <SafeAreaProvider>
@@ -45,7 +44,7 @@ export default function ActivityDetailPage() {
                     { request.likes.length > 0 && <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', marginVertical: 20}} onPress={() => 
                         router.navigate({pathname: '/likes-page', params: { requestId: request.requestId, groupId: request.groupId }})
                         }>
-                        <Text style={styles.likesText}>View likes ({request.likes.length})</Text>
+                        <Text style={styles.likesText}>View likes ({likeCount})</Text>
                         <Entypo name="chevron-right" size={20} color='rgb(180, 180, 180)' style={{marginTop: 2}}/>
                     </TouchableOpacity> }
                 </ScrollView>

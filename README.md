@@ -1,50 +1,53 @@
-# Welcome to your Expo app 👋
+# DSocial
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+An app to make planning activities easier
 
-## Get started
+## Description
 
-1. Install dependencies
+Even at Dartmouth, a school with just over 4,000 undergrads that most would consider a "small," making friends and seeing them on a regular basis is hard. As a first year, I'd consider this aspect of social life the hardest part of being in college. Even going to our primary dining fall, Foco, at the busiest times every day, I often don't recognize anyone there, and to see friends, I have to text them to schedule meetups.
 
-   ```bash
-   npm install
-   ```
+That's why I created DSocial. Let's say you are close with some of the people on your dorm floor and you want to see them at lunch--but you never do. Instead of hoping for the best every time you walk into the dining hall, DSocial allows you to create an online group with them and post activity plans to that group. If any of them are interested in meeting you, they can simply "like" the activity by pressing a virtual thumbs up. Likes are visible to anyone in the group, and, depending on individual privacy settings, anyone in the group can message some or all activity "likers" via SMS, if you haven't shared contact info already. Activity plans also dissapear after 45 minutes: if they don't get traction, they don't linger there forever. This eliminates the (what I would consider) slightly awkward step of texting the group chat when you feel a little bit lonely and not getting any response half the time. Activities obviously don't apply to lunch only, either. You can post about absolutely anything, from workouts and hikes to games of pool in Collis or your plans to watch an upcoming football game.  
 
-2. Start the app
+<br/>
+<table>
+  <tr>
+    <td align="center">
+      <img width="200px" alt="Group page" src="https://github.com/user-attachments/assets/8fb170cf-7dbf-4137-a63d-e46ecbf62369" />
+      <p>Group page</p>
+    </td>
+    <td align="center">
+      <img width="200" alt="Search page" src="https://github.com/user-attachments/assets/c13bd3fa-a950-41a7-91af-749969cc5463" />
+      <p>Search page</p>
+    </td>
+    <td align="center">
+      <img width="200" alt="Group form page" src="https://github.com/user-attachments/assets/5dfc7eb3-9cde-4c10-8f18-bd8611fe4aa1" />
+      <p>Add group form</p>
+    </td>
+  </tr>
+</table>
 
-   ```bash
-   npx expo start
-   ```
+<table>
+  <tr>
+    <td align="center">
+      <img width="200" alt="Message your friends" src="https://github.com/user-attachments/assets/4bfe9cf9-3ee5-4318-b0f7-08eb26ffe45a" />
+      <p>Message your friends</p>
+    </td>
+    <td align="center">
+      <img width="200" alt="Group details" src="https://github.com/user-attachments/assets/f1f6b9e8-fe5b-41fe-bf20-94d2ed2219fb" />
+      <p>Description page</p>
+    </td>
+    <td align="center">
+      <img width="200" alt="Activity details" src="https://github.com/user-attachments/assets/03a0c635-ff89-40e1-8b87-15e7e2a8682a" />
+      <p>Activity details</p>
+    </td>
+  </tr>
+</table>
+<br/>
 
-In the output, you'll find options to open the app in a
+This style of communcation--pressing a single button to say "yes" to an activity and ignoring it otherwise--is designed to reduce the pressure that comes with planning activities or receiving invites. My hope is that the app will allow friends to see each other more often and reduce the frustration of wanting to see people but not knowing how to make it happen.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+As for the technical design of the app, I wrote the frontend with React Native (which I have used before) and Typescript (which I was using for the first time). The backend is made up of a Postgres database to store group, activity, and user data, and a Python server created with Flask to handle requests made from the frontend. 
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Installation
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+[Install the app here](https://www.apple.com/app-store/)

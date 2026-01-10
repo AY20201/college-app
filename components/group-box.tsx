@@ -60,6 +60,7 @@ function EmptyActivityBox({ addActivity, addingCallback, setNewActivity, groupId
             submitActivity();
             return;
         }
+        if(!textValue) return;
         setActivityDesc(textValue); //store the current text value
         setTextValue(''); //reset input field
         if(inputRef.current){
@@ -98,6 +99,7 @@ function EmptyActivityBox({ addActivity, addingCallback, setNewActivity, groupId
                         onSubmitEditing={submitText}
                         autoFocus={true}
                         submitBehavior="submit"
+                        maxLength={50}
                     />
                 </Animated.View>
                 <Animated.View style={slideStyle}>
@@ -110,6 +112,7 @@ function EmptyActivityBox({ addActivity, addingCallback, setNewActivity, groupId
                         placeholderTextColor={'rgb(70, 70, 70)'}
                         onSubmitEditing={submitText}
                         submitBehavior="submit"
+                        maxLength={50}
                     />
                 </Animated.View>
             </View>
@@ -140,24 +143,35 @@ function ActivityBox({ request } : { request: ActivityRequest }) {
         }
         setLikeCount(request.likes.length);
     }, []);
+
+    function lowerCaseFirstLetter(text: string){
+        return text.charAt(0).toLowerCase() + text.slice(1);
+    }
     
     return (
         <View style={styles.requestBox}>
             <TouchableOpacity style={{width: 250}} onPress={() => router.navigate({ 
                     pathname: '/activity-detail-page',
-                    params: { requestStr: JSON.stringify(request), userId: getUserProperty("id"), time: timePosted }
+                    params: { requestStr: JSON.stringify(request), userId: getUserProperty("id"), likeCount: likeCount, time: timePosted }
                 })}>
-                <Text style={styles.activityText}>{personNameAbbreviated} is down for {request.activity}!</Text>
+                <Text style={styles.activityText}>{personNameAbbreviated} is down for {lowerCaseFirstLetter(request.activity)}!</Text>
                 <Text style={styles.timeText}>{timePosted}</Text>
             </TouchableOpacity>
             {/* Like button with like count */}
             <View style={{flexDirection: 'column', alignItems: 'center'}}>
                 <TouchableOpacity onPress={() => {
-                    setIsLiked(true);
-                    setLikeCount(likeCount + 1);
-                    request.likes.push("New like!");
-                    likeActivity(request.requestId);
-                }} disabled={isLiked}>
+                    if(!isLiked){
+                        setIsLiked(true);
+                        setLikeCount(likeCount + 1);
+                        //request.likes.push("New like!");
+                        likeActivity(request.requestId);
+                    } else {
+                        setIsLiked(false);
+                        setLikeCount(likeCount - 1);
+                        //request.likes.pop();
+                        likeActivity(request.requestId, true);
+                    }
+                }}>
                     {/* The like icon will be the outline only "like" icon when not liked yet, it will be the filled in "dislike" icon flipped vertically when liked */}
                     <AntDesign name={isLiked ? "dislike" : "like"} style={isLiked ? {transform: [{scaleY: -1}]} : {}} size={40} color='rgb(111, 111, 111)' />
                 </TouchableOpacity>
@@ -184,7 +198,6 @@ export default function GroupBox({ group, addActivity }: GroupBoxProps) {
 
     useEffect(() =>
     {
-        console.log("refreshed")
         setLocalActivityRequests(group.activityRequests);
         setIsAdding(false);
         setNewActivityRequest(undefined);

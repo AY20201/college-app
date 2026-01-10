@@ -77,7 +77,7 @@ export default function LoginPage() {
         <SafeAreaProvider>
             <SafeAreaView style={styles.root}>
                 <View style={styles.base}>
-                    <Text style={[styles.signInText, { fontSize: 30, marginBottom: 30 }]}>TITLE</Text>
+                    <Text style={[styles.signInText, { fontSize: 30, marginBottom: 30 }]}>DSocial</Text>
                     <TouchableOpacity style={styles.signInButton} onPress={() => promptAsync()}>
                         <AntDesign name="google" size={24} color='rgb(211, 211, 211)' />
                         <Text style={styles.signInText}>Sign in with Google</Text>

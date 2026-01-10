@@ -78,9 +78,10 @@ export default function AddGroupForm() {
                             value={description}
                             ref={descInputRef}
                             onChangeText={setDescription}
-                            placeholder="Describe your group here (100 characters max)"
+                            placeholder="Describe your group here 200 characters max)"
                             placeholderTextColor={'rgba(211, 211, 211, 0.45)'}
                             multiline={true}
+                            maxLength={200}
                             onFocus={() => setIsDescFocused(true)}
                             onBlur={() => setIsDescFocused(false)}
                             onSubmitEditing={() => {
@@ -152,6 +153,7 @@ const styles = StyleSheet.create({
     },
     focusedTextInput: {
         borderColor: 'rgb(255, 255, 255)',
+        color: 'rgb(211, 211, 211)'
     },
     inputLabel: {
         margin: 6,

@@ -21,7 +21,7 @@ type UserContextType = {
     getUserGroups: (groupId?: string) => Promise<any>,
     addUserGroup: (groupId: string, userId?: string, userName?: string) => void;
     leaveUserGroup: (groupId: string) => void;
-    likeActivity: (requestId: string) => void;
+    likeActivity: (requestId: string, removeLike?: boolean) => void;
     getUserJoinRequests: () => Promise<any>;
     changeHideNumber: (groupId: string, newStatus: boolean) => void;
 };
@@ -141,7 +141,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }
     
-    const likeActivity = async(requestId: string) => {
+    const likeActivity = async(requestId: string, removeLike?: boolean) => {
         try {
             console.log(`User ${user?.id} liked request ${requestId}`);
             const res = await fetch("http://127.0.0.1:5000/like_activity", {
@@ -149,7 +149,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({"userId": user?.id, "requestId": requestId})
+                body: JSON.stringify({"userId": user?.id, "requestId": requestId, "removeLike": removeLike})
             });
     
             const json = await res.json();

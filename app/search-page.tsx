@@ -75,11 +75,7 @@ export default function SearchPage(){
 
     useFocusEffect(
         useCallback(() => {
-            if(!isLoaded){
-                getGroups();
-                setIsLoaded(true);
-                return;
-            }
+            getGroups();
         }, [])
     );
 

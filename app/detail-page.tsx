@@ -205,7 +205,7 @@ export default function DetailPage() {
                         } else {
                             leaveUserGroup(id);
                         }
-                        router.navigate({ pathname: '/status-page' });
+                        router.back();
                         }}>
                         <Text style={styles.leaveButtonText}>{userIsOwner ? "Delete group" : "Leave group"}</Text>
                     </TouchableOpacity>

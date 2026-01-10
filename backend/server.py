@@ -1,7 +1,8 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS, cross_origin
-import psycopg2
 import threading
+
+import psycopg2
+from flask import Flask, jsonify, request
+from flask_cors import CORS, cross_origin
 
 # Flask constructor takes the name of 
 # current module (__name__) as argument.
@@ -166,11 +167,15 @@ def like_activity():
 
         request_id = data.get("requestId")
         user_id = data.get("userId")
+        remove_like = data.get("removeLike")
         with conn.cursor() as curs:
             #print("Connection Successful")
             try:
-                curs.execute(f"UPDATE activity_requests SET user_likes = array_append(user_likes, '{user_id}') WHERE request_id = '{request_id}'")
-                
+                if(remove_like):
+                    curs.execute(f"UPDATE activity_requests SET user_likes = array_remove(user_likes, '{user_id}') WHERE request_id = '{request_id}'")
+                else:
+                    curs.execute(f"UPDATE activity_requests SET user_likes = array_append(user_likes, '{user_id}') WHERE request_id = '{request_id}'")
+
                 return jsonify({"status": "success", "user": data})
             except (Exception, psycopg2.DatabaseError) as error:
                 print(error)
@@ -315,7 +320,7 @@ def add_activity_request():
             try:
                 curs.execute(f"INSERT INTO activity_requests (user_id, activity, location, group_id) VALUES ('{user_id}', '{activity}', '{location}', '{group_id}') RETURNING request_id")
                 request_id = curs.fetchone()[0]
-                delay_seconds = 1 * 60
+                delay_seconds = 45 * 60
 
                 # Create a Timer object: it runs the function after the specified delay
                 timer = threading.Timer(delay_seconds, delete_activity_request, args=(request_id,))
