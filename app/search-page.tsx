@@ -30,19 +30,20 @@ export default function SearchPage(){
 
     const getGroups = async() => {
         try {
-            const res = await fetch("http://127.0.0.1:5000/groups", {
+            const res = await fetch("https://alxy24.pythonanywhere.com/groups", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
                 }
             });
             const json = await res.json();
+            //name, description, isPrivate, groupId, owner
             const groupsArr: [string, string, boolean, string, string][] = json["results"]; //every group that exists
-
-            const userGroups : [string, string, boolean, string, string][] = await getUserGroups(); //groups the user is part of
+            //id, name, description, private, searchable, owner
+            const userGroups : [string, string, string, boolean, boolean, string][] = await getUserGroups(); //groups the user is part of
             const userGroupIds: string[] = []; //list of ids for groups the user is part of
             userGroups.forEach(group => {
-                userGroupIds.push(group[3]);
+                userGroupIds.push(group[0]);
             });
 
             const joinRequests: string[] = await getUserJoinRequests();

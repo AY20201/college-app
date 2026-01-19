@@ -25,7 +25,7 @@ export default function PhoneNumberPage(){
     const modifyPhoneNumber = async(phoneNumber : string) => {
         try {
             console.log("Modifying phone number for: " + userId);
-            const res = await fetch("http://127.0.0.1:5000/modify_phone_number", {
+            const res = await fetch("https://alxy24.pythonanywhere.com/modify_phone_number", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

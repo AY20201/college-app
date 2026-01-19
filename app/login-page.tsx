@@ -26,10 +26,11 @@ export default function LoginPage() {
           headers: { Authorization: `Bearer ${token}` },
         });
         const user = await response.json();
-        console.log(user);
+        //console.log(user);
         
         //check if the user exists in database, so we can fill in existing phone number
-        const res = await fetch(`http://127.0.0.1:5000/check_user?user_id=${user.id}`, {method: "GET", headers: {"Content-Type": "application/json"}});
+        const res = await fetch(`https://alxy24.pythonanywhere.com/check_user?user_id=${user.id}`, {method: "GET", headers: {"Content-Type": "application/json"}});
+        //console.log(res);
         const json = await res.json();
         const userCheck : [string][] = json["results"];
 

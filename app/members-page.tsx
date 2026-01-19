@@ -17,12 +17,12 @@ export default function MembersPage(){
     }>();
 
     const { getUserProperty } = useUser();
-    const ownerId = owner.split(" ")[0];
+    const ownerId = owner.split("/")[0];
     const userIsOwner = ownerId === getUserProperty("id");
 
     const getGroupMembers = async(groupId: string) => {
         try {
-            const res = await fetch(`http://127.0.0.1:5000/group_members?group_id=${groupId}`, {
+            const res = await fetch(`https://alxy24.pythonanywhere.com/group_members?group_id=${groupId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
@@ -39,7 +39,7 @@ export default function MembersPage(){
 
     const removeGroupMember = async(groupId: string, userId: string) => {
         try {
-            const res = await fetch(`http://127.0.0.1:5000/remove_group_member`, {
+            const res = await fetch(`https://alxy24.pythonanywhere.com/remove_group_member`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

@@ -24,12 +24,12 @@ export type ActivityRequest = {
 }
 
 export type Group = {
+    id: string;
     name: string;
     description: string;
     isPrivate: boolean;
-    id: string;
-    owner: string,
     isSearchable: boolean,
+    owner: string,
     activityRequests: ActivityRequest[];
 };
 
@@ -49,19 +49,20 @@ export default function StatusPage() {
 
     const getActivityRequests = async() => {
         try {
-            const res = await fetch("http://127.0.0.1:5000/activity_requests", {
+            const res = await fetch("https://alxy24.pythonanywhere.com/activity_requests", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
                 }
             });
             const json = await res.json();
-            const activityRequestsArr: [string, string, string, string, boolean, string, string, string, string, string, string[]][] = json["results"];
+            const activityRequestsArr: [string, string, string, string, boolean, string, string, string, string, string, string][] = json["results"];
+            //console.log(activityRequestsArr);
 
             let parsedActivityRequests: ActivityRequest[] = [];
             activityRequestsArr.forEach(request => {
                 const [ userId, name, email, phoneNumber, hideNumber, activity, location, groupId, requestId, timePosted, likes ] = request;
-                parsedActivityRequests.push({ userId, name, email, phoneNumber, hideNumber, activity, location, groupId, requestId, timePosted, likes })
+                parsedActivityRequests.push({ userId, name, email, phoneNumber, hideNumber: Boolean(hideNumber), activity, location, groupId, requestId, timePosted, likes: JSON.parse(likes) })
             });
             //setGroups(parsedGroups);
             return parsedActivityRequests;
@@ -74,12 +75,16 @@ export default function StatusPage() {
     //get list of groups from Flask and fill groups array with that data
     const getGroups = async() => {
         try {
-            const groupsArr: [string, string, boolean, string, string, boolean][] = await getUserGroups();
-
+            //const groupsArr: [string, string, boolean, string, string, boolean][] = await getUserGroups();
+            const groupsArr: [string, string, string, boolean, boolean, string][] = await getUserGroups();
+            //console.log(groupsArr);
             //create an array of groups that contain the activity request array (may be a faster way to do this)
             let parsedGroups: Group[] = [];
             groupsArr.forEach(group => {
-                parsedGroups.push({ name: group[0], description: group[1], isPrivate: group[2], id: group[3], owner: group[4], isSearchable: group[5], activityRequests: [] })
+                //parsedGroups.push({ name: group[0], description: group[1], isPrivate: group[2], id: group[3], owner: group[4], isSearchable: group[5], activityRequests: [] })
+                const [id, name, description, isPrivate, isSearchable, owner] = group;
+                //parsedGroups.push({ name: group[0], description: group[1], isPrivate: group[2], id: group[3], owner: group[4], isSearchable: group[5], activityRequests: [] })
+                parsedGroups.push({ id, name, description, isPrivate: Boolean(isPrivate), isSearchable: Boolean(isSearchable), owner, activityRequests: [] })
             });
 
             //create a map of requests for each groupId
@@ -109,7 +114,7 @@ export default function StatusPage() {
             // if(groups.length > 0 && groups[groups.length - 1] == newGroup){
             //     return;
             // }
-            const res = await fetch("http://127.0.0.1:5000/add_group", {
+            const res = await fetch("https://alxy24.pythonanywhere.com/add_group", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -120,25 +125,25 @@ export default function StatusPage() {
             console.log(json);
             const generatedID = json["id"];
 
-            addUserGroup(generatedID);
+            await addUserGroup(generatedID);
             getGroups();
         } catch (err) {
             console.error("Request failed:", err);
         }
     }
     //will be called from GroupBox class to add an activity request to database
-    const addActivityRequest = async(userId: string, activity: string, location: string, groupId: string ) => {
+    const addActivityRequest = async(userId: string, activity: string, location: string, groupId: string, timePosted: string) => {
         try {
-            const res = await fetch("http://127.0.0.1:5000/add_activity_request", {
+            const res = await fetch("https://alxy24.pythonanywhere.com/add_activity_request", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({"user_id": userId, "activity": activity, "location": location, "group_id": groupId})
+                body: JSON.stringify({"userId": userId, "activity": activity, "location": location, "groupId": groupId, "timePosted": timePosted})
             });
             //setGroupCount(groupCount + 1);
             const json = await res.json();
-            console.log(json);
+            //console.log(json);
 
             return json["id"];
             //getGroups();
@@ -166,9 +171,7 @@ export default function StatusPage() {
     
     useFocusEffect(
         useCallback(() => {
-            if(!name){ //only call this when not trying to add a group, otherwise it will be called twice
-                getGroups();
-            }        
+            getGroups();
         }, [])
     ); //technically doesn't matter what groupCount is right now, as long as it is changing at the right time
 

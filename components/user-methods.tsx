@@ -19,7 +19,7 @@ type UserContextType = {
     getUserProperty: <K extends keyof UserData>(key: K) => UserData[K];
     setUserProperty: <K extends keyof UserData>(key: K, value: string) => void;
     getUserGroups: (groupId?: string) => Promise<any>,
-    addUserGroup: (groupId: string, userId?: string, userName?: string) => void;
+    addUserGroup: (groupId: string, userId?: string, userName?: string) => Promise<any>;
     leaveUserGroup: (groupId: string) => void;
     likeActivity: (requestId: string, removeLike?: boolean) => void;
     getUserJoinRequests: () => Promise<any>;
@@ -30,7 +30,7 @@ export const storeUserData = async(user : UserData) => {
     try {
         AsyncStorage.setItem('user', JSON.stringify(user));
 
-        const res = await fetch("http://127.0.0.1:5000/add_user", {
+        const res = await fetch("https://alxy24.pythonanywhere.com/add_user", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -88,7 +88,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
     const getUserGroups = async(groupId?: string) => {
         try {
-            const res = await fetch(`http://127.0.0.1:5000/user_groups?user_id=${user?.id}&group_id=${groupId}`, {
+            const res = await fetch(`https://alxy24.pythonanywhere.com/user_groups?user_id=${user?.id}&group_id=${groupId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
@@ -107,7 +107,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     
     const addUserGroup = async(groupId: string, userId?: string, userName?: string) => {
         try {
-            const res = await fetch("http://127.0.0.1:5000/add_user_group", {
+            const res = await fetch("https://alxy24.pythonanywhere.com/add_user_group", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -116,7 +116,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
             });
     
             const json = await res.json();
-            //console.log(json);
+            console.log(json);
             //const updatedGroups = groups.map(group => group.id === groupId ? {...group, isJoined: true} : group)
         } catch (err) {
             console.error("Request failed:", err);
@@ -125,7 +125,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     
     const leaveUserGroup = async(groupId: string) => {
         try {
-            const res = await fetch("http://127.0.0.1:5000/leave_user_group", {
+            const res = await fetch("https://alxy24.pythonanywhere.com/leave_user_group", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -144,7 +144,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     const likeActivity = async(requestId: string, removeLike?: boolean) => {
         try {
             console.log(`User ${user?.id} liked request ${requestId}`);
-            const res = await fetch("http://127.0.0.1:5000/like_activity", {
+            const res = await fetch("https://alxy24.pythonanywhere.com/like_activity", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -161,7 +161,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
     const getUserJoinRequests = async() => {
         try {
-            const res = await fetch(`http://127.0.0.1:5000/user_join_requests?user_id=${user?.id}`, {
+            const res = await fetch(`https://alxy24.pythonanywhere.com/user_join_requests?user_id=${user?.id}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
@@ -177,7 +177,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
     const changeHideNumber = async(groupId: string, newStatus: boolean) => {
         try {
-            const res = await fetch(`http://127.0.0.1:5000/modify_hide_number`, {
+            const res = await fetch(`https://alxy24.pythonanywhere.com/modify_hide_number`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

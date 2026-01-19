@@ -42,7 +42,7 @@ export const sendSMS = async(message: string, selection?: [string, string][], ph
 
 export const getLikes = async(requestId: string, groupId: string) => {
     try {
-        const res = await fetch(`http://127.0.0.1:5000/get_likes_list?request_id=${requestId}&group_id=${groupId}`, {
+        const res = await fetch(`https://alxy24.pythonanywhere.com/get_likes_list?request_id=${requestId}&group_id=${groupId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -86,7 +86,9 @@ export default function LikesPage(){
         return (
             <View>
                 <View style={[styles.rowContainer, isSelected ? { "backgroundColor":'rgb(0, 105, 50)' } : null]}>
-                    <Text style={styles.text}>{userName}</Text>
+                    <View style={{maxWidth: 300}}>
+                        <Text style={styles.text}>{userName}</Text>
+                    </View>
                     <View style={styles.checkboxView}>
                         { userId === getUserProperty("id") ? 
                             <Text style={styles.meText}>Me</Text>
@@ -111,7 +113,7 @@ export default function LikesPage(){
             <SafeAreaView style={styles.root}>
                 <View style={styles.base}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                        <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', marginLeft: -8}} onPress={() => router.navigate({ pathname: '/status-page' })}>
+                        <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', marginLeft: -8}} onPress={() => router.back()}>
                             <Entypo name="chevron-left" size={35} color='rgb(211, 211, 211)' />
                             <Text style={[styles.text, { fontSize: 40 }]}>Likes</Text>
                         </TouchableOpacity>

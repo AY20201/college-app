@@ -6,17 +6,17 @@ import { FlatList, RefreshControl, StyleSheet, Text, TouchableOpacity, View } fr
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { getJoinRequests } from './detail-page';
 
-export const addJoinRequest = async(groupId: string, userId: string, userName: string, accept?: boolean) => {
+export const addJoinRequest = async(groupId: string, userId: string, userName: string, accept?: boolean, multiple?: boolean) => {
     try {
         //combining add and accept join request functions into one because they are so similar
         //when a value is passed for accept (checking if undefined or not here, will always be true when passed)
         //the request will be made to the accept endpoint instead of the add one
-        const res = await fetch(`http://127.0.0.1:5000/${accept ? "accept" : "add"}_join_request`, {
+        const res = await fetch(`https://alxy24.pythonanywhere.com/${accept ? "accept" : "add"}_join_request`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({"groupId": groupId, "userId": userId, "userName": userName})
+            body: JSON.stringify({"groupId": groupId, "userId": userId, "userName": userName, "multiple": multiple})
         });
         const json = await res.json();
         console.log(json);
@@ -58,11 +58,13 @@ export default function JoinRequestsPage(){
         return (
             <View>
                 <View style={styles.rowContainer}>
-                    <Text style={[styles.text, { marginVertical: 20 }]}>{userName}</Text>
+                    <View style={{maxWidth: 300}}>
+                        <Text style={[styles.text, { marginVertical: 20 }]}>{userName}</Text>
+                    </View>
                     <TouchableOpacity style={styles.requestButton} onPress={() => 
                         {
                             setLocalAccepted(true);
-                            addJoinRequest(groupId, userId, "", true); //this is actually setting a request to accepted (username does not matter at all)
+                            addJoinRequest(groupId, userId, "", true, false); //this is actually setting a request to accepted (username does not matter at all)
                             addUserGroup(groupId, userId, userName); //add the user-group relationship so the user who made the request actually joins the group when accepted
                         }} disabled={localAccepted}>
                         <Text style={styles.requestButtonText}>{localAccepted ? "Accepted" : "Accept"}</Text>

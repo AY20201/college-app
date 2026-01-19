@@ -41,7 +41,7 @@ export default function ActivityDetailPage() {
                     </View>
                     <View style={{marginVertical: 15, height: 1, backgroundColor: 'rgb(111, 111, 111)'}}></View>
                     <Text style={styles.detailsText}>{formatClassYear(request.name, request.email)}  ·  {time}</Text>
-                    { request.likes.length > 0 && <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', marginVertical: 20}} onPress={() => 
+                    { parseInt(likeCount) > 0 && <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', marginVertical: 20}} onPress={() => 
                         router.navigate({pathname: '/likes-page', params: { requestId: request.requestId, groupId: request.groupId }})
                         }>
                         <Text style={styles.likesText}>View likes ({likeCount})</Text>

@@ -4,6 +4,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { formatClassYear } from './detail-page';
 
 export default function MemberSearch(){
     const [searchResults, setSearchResults] = useState<[string, string, string][] | null>(null);
@@ -21,7 +22,7 @@ export default function MemberSearch(){
 
     //need to filter out users who are already in the group
     const searchUsers = async() => {
-        const res = await fetch(`http://127.0.0.1:5000/filter_users?search_query=${currentSearch}`, {
+        const res = await fetch(`https://alxy24.pythonanywhere.com/filter_users?search_query=${currentSearch}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -50,9 +51,8 @@ export default function MemberSearch(){
         return (
             <View>
                 <View style={styles.rowContainer}>
-                    <View>
-                        <Text style={styles.text}>{userName}</Text>
-                        {/* <Text style={styles.emailText}>{userEmail}</Text> */}
+                    <View style={{maxWidth: 210}}>
+                        <Text style={styles.text}>{formatClassYear(userName, userEmail)}</Text>
                     </View>
                     <TouchableOpacity style={styles.addButton} disabled={isAdded} onPress={() => {
                         setIsAdded(true);
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     },
     base: {
         flex: 1,
-        marginHorizontal: 20,
+        marginHorizontal: 15,
         //height: '100%'
     },
     searchBar: {
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     },
     addButton: {
         height: 50,
-        width: 120,
+        width: 100,
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 3,

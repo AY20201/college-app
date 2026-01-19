@@ -8,7 +8,7 @@ import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from "r
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { useUser } from "./user-methods";
 
-type AddActivityCallbackType = (personName: string, activity: string, location: string, groupId: string) => Promise<string>;
+type AddActivityCallbackType = (userId: string, activity: string, location: string, groupId: string, timePosted: string) => Promise<string>;
 
 type EmptyActivityBoxProps = {
     addActivity: AddActivityCallbackType;
@@ -80,7 +80,7 @@ function EmptyActivityBox({ addActivity, addingCallback, setNewActivity, groupId
 
         //textValue is location
         //addActivity adds activity to database, setNewActivity adds it to local array
-        addActivity(userId, activityDesc, textValue, groupId).then((requestId) => {
+        addActivity(userId, activityDesc, textValue, groupId, currentTime).then((requestId) => {
             setNewActivity({ userId: userId, name: username, email: email, phoneNumber: "", hideNumber: false, activity: activityDesc, location: textValue, groupId: groupId, requestId: requestId, timePosted: currentTime, likes: [] });
             //make sure add local activity is called after adding callback is complete, that is probably the animation issue
         });
@@ -142,7 +142,7 @@ function ActivityBox({ request } : { request: ActivityRequest }) {
             setIsLiked(request.likes.includes(userId));
         }
         setLikeCount(request.likes.length);
-    }, []);
+    }, [request.likes]);
 
     function lowerCaseFirstLetter(text: string){
         return text.charAt(0).toLowerCase() + text.slice(1);
@@ -198,9 +198,10 @@ export default function GroupBox({ group, addActivity }: GroupBoxProps) {
 
     useEffect(() =>
     {
-        setLocalActivityRequests(group.activityRequests);
         setIsAdding(false);
+        currentHeight.value = 0;
         setNewActivityRequest(undefined);
+        setLocalActivityRequests(group.activityRequests);
         //const nameSplit = personName.split(" ");
         //Turns something like "Alex Young" into "Alex Y"
         //setPersonNameAbbreviated(nameSplit[0] + (nameSplit.length > 1 ? " " + nameSplit[1].charAt(0) : ""));

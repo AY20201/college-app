@@ -8,6 +8,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { addJoinRequest } from './join-requests-page';
 
 export function formatClassYear(name: string, email: string){
     const splitEmail = email.split("@");
@@ -24,7 +25,7 @@ export function formatClassYear(name: string, email: string){
 
 const modifyPrivacyStatus = async(groupId: string, newPrivacyStatus: boolean, useSearchable?: boolean) => {
     try {
-        const res = await fetch("http://127.0.0.1:5000/modify_privacy_status", {
+        const res = await fetch("https://alxy24.pythonanywhere.com/modify_privacy_status", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -40,7 +41,7 @@ const modifyPrivacyStatus = async(groupId: string, newPrivacyStatus: boolean, us
 
 const deleteGroup = async(groupId: string) => {
     try {
-        const res = await fetch("http://127.0.0.1:5000/delete_group", {
+        const res = await fetch("https://alxy24.pythonanywhere.com/delete_group", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -57,7 +58,7 @@ const deleteGroup = async(groupId: string) => {
 export const getJoinRequests = async(groupId: string) => {
     try {
         console.log(groupId);
-        const res = await fetch(`http://127.0.0.1:5000/join_requests?group_id=${groupId}`, {
+        const res = await fetch(`https://alxy24.pythonanywhere.com/join_requests?group_id=${groupId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -108,7 +109,7 @@ export default function DetailPage() {
         if(isJoinedBool){
             getUserGroups(id).then((userGroup) => {
                 console.log(userGroup);
-                setHideNumber(userGroup[3]);
+                setHideNumber(Boolean(userGroup[3]));
             })
         }
         
@@ -124,6 +125,9 @@ export default function DetailPage() {
                     <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', marginLeft: -8}} onPress={() => {
                             if(isPrivate && (isPrivate === "true") !== privacyStatus){
                                 modifyPrivacyStatus(id, privacyStatus);
+                                if(!privacyStatus){
+                                    addJoinRequest(id, "", "", true, true); //accept all join requests from group
+                                }
                             }
                             if(isSearchable && (isSearchable === "true") !== searchableStatus){
                                 modifyPrivacyStatus(id, searchableStatus, true); //actually modifying searchable status, just reusing the function
