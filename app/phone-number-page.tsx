@@ -22,9 +22,10 @@ export default function PhoneNumberPage(){
     const { setUser, setUserProperty } = useUser()
     const user : UserData = userText ? JSON.parse(userText) : {};
 
+    //change phone number in database
     const modifyPhoneNumber = async(phoneNumber : string) => {
         try {
-            console.log("Modifying phone number for: " + userId);
+            //console.log("Modifying phone number for: " + userId);
             const res = await fetch("https://alxy24.pythonanywhere.com/modify_phone_number", {
                 method: "POST",
                 headers: {
@@ -33,12 +34,13 @@ export default function PhoneNumberPage(){
                 body: JSON.stringify({ "userId": userId, "phoneNumber": phoneNumber })
             });
             const json = await res.json();
-            console.log(json);
+            //console.log(json);
         }  catch (err) {
             console.error("Request failed:", err);
         }
     }
 
+    //submit phone number text that has been entered
     function submitNumber(){
         const checkValid = phoneInput.current?.isValidNumber(phoneNumberText);
         if(phoneNumberText && !checkValid){
@@ -46,6 +48,7 @@ export default function PhoneNumberPage(){
             return;
         }
 
+        //if the phone number is just being modified (from the user page), only the phone number property needs to be changed
         if(modify){
             setUserProperty("phoneNumber", phoneNumberText);
             modifyPhoneNumber(phoneNumberText).then(() => router.back())
@@ -70,18 +73,6 @@ export default function PhoneNumberPage(){
                     </View> }
                     <View>
                         <Text style={[styles.labelText, { fontSize: 30, marginBottom: 30 }]}>What is your phone number?</Text>
-                        {/* <TextInput
-                            style={[styles.textInput, isTextFocused ? { borderColor: 'rgb(255, 255, 255)' } : null]}
-                            value={phoneNumberText}
-                            onChangeText={setPhoneNumberText}
-                            placeholder='#'
-                            placeholderTextColor={'rgba(211, 211, 211, 0.45)'}
-                            onFocus={() => setIsTextFocused(true)}
-                            onBlur={() => setIsTextFocused(false)}
-                            autoFocus={true}
-                            onSubmitEditing={() => submitNumber()}
-                            keyboardType='numeric'
-                        /> */}
                         <PhoneInput
                             ref={phoneInput}
                             defaultValue={phoneNumberText}

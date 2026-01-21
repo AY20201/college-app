@@ -10,27 +10,24 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 WebBrowser.maybeCompleteAuthSession();
 
 export default function LoginPage() {
-    //const redirectUri = AuthSession.makeRedirectUri();
-    //console.log(redirectUri);
     const { setUser } = useUser();
 
     const [request, response, promptAsync] = Google.useAuthRequest({
         clientId: process.env.EXPO_PUBLIC_CLIENT_ID,
         iosClientId: process.env.EXPO_PUBLIC_IOS_CLIENT_ID,
-        //redirectUri: makeRedirectUri({ native: 'collegeapp://' }),
         scopes: ['profile', 'email'],
     });
 
+    //get user info from Google server with generated authentication token
     async function getUserInfoFromServer(token: string) {
         const response = await fetch("https://www.googleapis.com/userinfo/v2/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const user = await response.json();
-        //console.log(user);
         
         //check if the user exists in database, so we can fill in existing phone number
         const res = await fetch(`https://alxy24.pythonanywhere.com/check_user?user_id=${user.id}`, {method: "GET", headers: {"Content-Type": "application/json"}});
-        //console.log(res);
+
         const json = await res.json();
         const userCheck : [string][] = json["results"];
 
@@ -41,7 +38,7 @@ export default function LoginPage() {
 
             router.navigate({ 
                 pathname: '/status-page',
-                //params: { username: user.name }
+
             });
         } else { 
             router.navigate({ 
@@ -52,6 +49,7 @@ export default function LoginPage() {
         return user;
     }
 
+    //check if the user is already logged in (has stored data)
     const checkLogIn = async() => {
         const storedUserData = await getUserData();
 
@@ -66,7 +64,7 @@ export default function LoginPage() {
         
         if (response?.type === 'success') {
             const { authentication } = response;
-            console.log("Access Token:", authentication?.accessToken);
+
             // From the token, you can now fetch profile info:
             if(authentication != null){
                 getUserInfoFromServer(authentication.accessToken);
@@ -78,7 +76,7 @@ export default function LoginPage() {
         <SafeAreaProvider>
             <SafeAreaView style={styles.root}>
                 <View style={styles.base}>
-                    <Text style={[styles.signInText, { fontSize: 30, marginBottom: 30 }]}>DSocial</Text>
+                    <Text style={[styles.signInText, { fontSize: 40, marginBottom: 30 }]}>DSocial</Text>
                     <TouchableOpacity style={styles.signInButton} onPress={() => promptAsync()}>
                         <AntDesign name="google" size={24} color='rgb(211, 211, 211)' />
                         <Text style={styles.signInText}>Sign in with Google</Text>

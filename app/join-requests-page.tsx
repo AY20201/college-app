@@ -19,7 +19,7 @@ export const addJoinRequest = async(groupId: string, userId: string, userName: s
             body: JSON.stringify({"groupId": groupId, "userId": userId, "userName": userName, "multiple": multiple})
         });
         const json = await res.json();
-        console.log(json);
+        //console.log(json);
     } catch (err) {
         console.error("Request failed:", err);
     }

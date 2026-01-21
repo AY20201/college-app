@@ -7,6 +7,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Alert, FlatList, Linking, Platform, RefreshControl, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
+//send an SMS message to one or multiple people
 export const sendSMS = async(message: string, selection?: [string, string][], phoneNumber?: string) => {
     //formats [[name1, number1], [name2, number2]...] to [+number1, +number2, ...]
     let phoneNumbers : string[] = [];
@@ -40,6 +41,7 @@ export const sendSMS = async(message: string, selection?: [string, string][], ph
     }
 }
 
+//get list of list for an activity with user info
 export const getLikes = async(requestId: string, groupId: string) => {
     try {
         const res = await fetch(`https://alxy24.pythonanywhere.com/get_likes_list?request_id=${requestId}&group_id=${groupId}`, {

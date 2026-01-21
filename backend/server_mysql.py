@@ -132,7 +132,6 @@ def get_likes_list():
                     curs.execute("SELECT users.user_id, users.user_name, phone_number, user_groups.hide_number FROM users INNER JOIN user_groups ON users.user_id = user_groups.user_id WHERE JSON_CONTAINS(%s, JSON_QUOTE(users.user_id)) AND user_groups.group_id = %s", (likes_list, group_id,))
 
                     user_list = curs.fetchall()
-                    print(user_list)
                     #curs.execute(f"SELECT hide_number FROM user_groups WHERE user_id = ANY(ARRAY{likes_list[0]}::TEXT[]) AND group_id = '{group_id}'")
 
                     return jsonify({"results": user_list})
@@ -149,10 +148,22 @@ def add_user_group():
         user_id = data.get("userId")
         group_id = data.get("groupId")
         user_name = data.get("userName")
+        multiple = data.get("multiple")
 
         with conn.cursor() as curs:
             try:
-                curs.execute("INSERT INTO user_groups (id, user_id, group_id, user_name) VALUES (UUID(), %s, %s, %s)", (user_id, group_id, user_name,))
+                if multiple:
+                    json_user_ids = json.dumps(user_id)
+                    curs.execute(
+                    """
+                    INSERT INTO user_groups (id, user_id, group_id, user_name)
+                    SELECT UUID(), user_id, %s, user_name
+                    FROM users WHERE JSON_CONTAINS(%s, JSON_QUOTE(user_id))
+                    """
+                    ,(group_id, json_user_ids,))
+                    #print(f"Added {len(user_id)} users")
+                else:
+                    curs.execute("INSERT INTO user_groups (id, user_id, group_id, user_name) VALUES (UUID(), %s, %s, %s)", (user_id, group_id, user_name,))
                 #curs.execute("SELECT * FROM test_students")
                 return jsonify({"status": "success", "user": data})
             except (Exception, mysql.connector.DatabaseError) as error:
@@ -467,8 +478,6 @@ def get_user_join_requests():
             try:
                 curs.execute(f"SELECT group_id FROM join_requests WHERE user_id = %s", (user_id,))
                 all_rows = curs.fetchall()
-
-                print(all_rows)
 
                 json_dict = {"results" : all_rows}
                 return jsonify(json_dict)

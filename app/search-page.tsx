@@ -56,7 +56,7 @@ export default function SearchPage(){
                 const groupId = group[3];
                 const isJoined = userGroupIds.includes(groupId);
                 const requestStatus = joinRequestsSet.has(groupId);
-                parsedGroups.push({ name: group[0], description: group[1], isPrivate: group[2], isJoined: isJoined, requestStatus: requestStatus, id: groupId, owner: group[4] })
+                parsedGroups.push({ name: group[0], description: group[1], isPrivate: Boolean(group[2]), isJoined: isJoined, requestStatus: requestStatus, id: groupId, owner: group[4] })
             });
 
             setGroups(parsedGroups);

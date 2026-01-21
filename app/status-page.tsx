@@ -106,7 +106,7 @@ export default function StatusPage() {
         }
     }
     
-    //makes a request to Flask to add group to postgres database
+    //makes a request to Flask to add group to database
     const addGroup = async(name: string, description: string, isPrivate: boolean, isSearchable: boolean) => {
         try {
             const owner = getUserProperty("id") + "/" + getUserProperty("name") + "/" + getUserProperty("email");
@@ -122,7 +122,7 @@ export default function StatusPage() {
                 body: JSON.stringify(newGroup)
             });
             const json = await res.json();
-            console.log(json);
+            //console.log(json);
             const generatedID = json["id"];
 
             await addUserGroup(generatedID);
@@ -173,7 +173,7 @@ export default function StatusPage() {
         useCallback(() => {
             getGroups();
         }, [])
-    ); //technically doesn't matter what groupCount is right now, as long as it is changing at the right time
+    );
 
     return (
         //<View>

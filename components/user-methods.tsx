@@ -19,7 +19,7 @@ type UserContextType = {
     getUserProperty: <K extends keyof UserData>(key: K) => UserData[K];
     setUserProperty: <K extends keyof UserData>(key: K, value: string) => void;
     getUserGroups: (groupId?: string) => Promise<any>,
-    addUserGroup: (groupId: string, userId?: string, userName?: string) => Promise<any>;
+    addUserGroup: (groupId: string, userId?: string | string[], userName?: string, multiple?: boolean) => Promise<any>;
     leaveUserGroup: (groupId: string) => void;
     likeActivity: (requestId: string, removeLike?: boolean) => void;
     getUserJoinRequests: () => Promise<any>;
@@ -67,6 +67,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<UserData | null>(null);
   
+    //get a property from user object
     function getUserProperty<K extends keyof UserData>(property: K): UserData[K]{
         if(user != null){
             return String(user[property]);
@@ -74,6 +75,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         return "";
     }
 
+    //set a property in user object
     function setUserProperty<K extends keyof UserData>(property: K, value: string){
         if(user != null){
             user[property] = value;
@@ -86,6 +88,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }
 
+    //get a list of users in a group
     const getUserGroups = async(groupId?: string) => {
         try {
             const res = await fetch(`https://alxy24.pythonanywhere.com/user_groups?user_id=${user?.id}&group_id=${groupId}`, {
@@ -105,24 +108,26 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }
     
-    const addUserGroup = async(groupId: string, userId?: string, userName?: string) => {
+    //add a user (or multiple users) to a group
+    const addUserGroup = async(groupId: string, userId?: string | string[], userName?: string, multiple?: boolean) => {
         try {
             const res = await fetch("https://alxy24.pythonanywhere.com/add_user_group", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({"userId": userId ? userId : user?.id, "groupId": groupId, "userName": userName ? userName : user?.name})
+                body: JSON.stringify({"userId": userId ? userId : user?.id, "groupId": groupId, "userName": userName ? userName : user?.name, "multiple": multiple !== undefined ? multiple : false})
             });
     
             const json = await res.json();
-            console.log(json);
+            //console.log(json);
             //const updatedGroups = groups.map(group => group.id === groupId ? {...group, isJoined: true} : group)
         } catch (err) {
             console.error("Request failed:", err);
         }
     }
     
+    //remove a user from a group
     const leaveUserGroup = async(groupId: string) => {
         try {
             const res = await fetch("https://alxy24.pythonanywhere.com/leave_user_group", {
@@ -141,6 +146,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }
     
+    //like, or remove a like, from an activity request
     const likeActivity = async(requestId: string, removeLike?: boolean) => {
         try {
             console.log(`User ${user?.id} liked request ${requestId}`);
@@ -159,6 +165,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }
 
+    //get join requests for a group
     const getUserJoinRequests = async() => {
         try {
             const res = await fetch(`https://alxy24.pythonanywhere.com/user_join_requests?user_id=${user?.id}`, {
@@ -175,6 +182,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         return [];
     }
 
+    //change privacy status of phone number per group
     const changeHideNumber = async(groupId: string, newStatus: boolean) => {
         try {
             const res = await fetch(`https://alxy24.pythonanywhere.com/modify_hide_number`, {
@@ -185,7 +193,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
                 body: JSON.stringify({ "userId": user?.id, "groupId": groupId, "newStatus": newStatus })
             });
             const json = await res.json();
-            console.log(json);
+            //console.log(json);
         } catch (err) {
             console.error("Request failed:", err);
         }

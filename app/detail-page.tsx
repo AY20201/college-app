@@ -80,7 +80,7 @@ export default function DetailPage() {
     const [userIsOwner, setUserIsOwner] = useState(false);
     const [joinRequests, setJoinRequests] = useState<[string, string, string][]>([]);
 
-    const { getUserProperty, leaveUserGroup, getUserGroups, changeHideNumber } = useUser();
+    const { getUserProperty, leaveUserGroup, addUserGroup, getUserGroups, changeHideNumber } = useUser();
 
     //allow for back button to go to search page if this page was navigated to from search page
     const { name, desc, isPrivate, isSearchable, id, owner, isJoined } = useLocalSearchParams<{
@@ -108,7 +108,6 @@ export default function DetailPage() {
         setSearchableStatus(isSearchable === "true");
         if(isJoinedBool){
             getUserGroups(id).then((userGroup) => {
-                console.log(userGroup);
                 setHideNumber(Boolean(userGroup[3]));
             })
         }
@@ -116,7 +115,7 @@ export default function DetailPage() {
         if(owner){
             setUserIsOwner(getUserProperty("id") == splitOwner[0]);
         }
-    }, [])
+    }, []);
 
     return (
         <SafeAreaProvider>
@@ -125,9 +124,6 @@ export default function DetailPage() {
                     <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', marginLeft: -8}} onPress={() => {
                             if(isPrivate && (isPrivate === "true") !== privacyStatus){
                                 modifyPrivacyStatus(id, privacyStatus);
-                                if(!privacyStatus){
-                                    addJoinRequest(id, "", "", true, true); //accept all join requests from group
-                                }
                             }
                             if(isSearchable && (isSearchable === "true") !== searchableStatus){
                                 modifyPrivacyStatus(id, searchableStatus, true); //actually modifying searchable status, just reusing the function
@@ -144,7 +140,16 @@ export default function DetailPage() {
                         <View>
                             { userIsOwner ? 
                             <View style={{ flexDirection:'row', alignItems: 'center', gap: 10 }}> 
-                                <Checkbox value={privacyStatus} onValueChange={setPrivacyStatus} color={'rgb(180, 180, 180)'}/>
+                                <Checkbox value={privacyStatus} onValueChange={(newValue) => { 
+                                    setPrivacyStatus(newValue);
+                                    if(!newValue && joinRequests){ //if making a previously private group public
+                                        addJoinRequest(id, "", "", true, true); //accept all join requests from group
+                                        const joinRequestIds: string[] = joinRequests.map(request => request[0]); //get a list of only request user ids
+                                        addUserGroup(id, joinRequestIds, undefined, true); //add a user group for every user with a join request
+                                        setJoinRequests([]); //set local join requests
+                                        console.log("Flipped privacy status");
+                                    }
+                                }} color={'rgb(180, 180, 180)'}/>
                                 <Text style={styles.detailsText}>Require request to join</Text>    
                             </View>
                             :

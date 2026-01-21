@@ -33,6 +33,7 @@ export default function MemberSearch(){
     }
 
     useEffect(() => {
+        //debouncing means there is a small (500ms) delay after typing is stopped before a search query is made
         if (debounceTimeoutRef.current) {
             clearTimeout(debounceTimeoutRef.current);
         }

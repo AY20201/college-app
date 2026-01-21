@@ -20,6 +20,7 @@ export default function MembersPage(){
     const ownerId = owner.split("/")[0];
     const userIsOwner = ownerId === getUserProperty("id");
 
+    //get users in group
     const getGroupMembers = async(groupId: string) => {
         try {
             const res = await fetch(`https://alxy24.pythonanywhere.com/group_members?group_id=${groupId}`, {
@@ -29,7 +30,7 @@ export default function MembersPage(){
                 },
             });
             const json = await res.json();
-            console.log(json);
+            //console.log(json);
             return json["results"];
         } catch (err) {
             console.error("Request failed:", err);
@@ -37,6 +38,7 @@ export default function MembersPage(){
         }
     }
 
+    //remove user from a group
     const removeGroupMember = async(groupId: string, userId: string) => {
         try {
             const res = await fetch(`https://alxy24.pythonanywhere.com/remove_group_member`, {
