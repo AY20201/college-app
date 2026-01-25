@@ -172,7 +172,7 @@ export default function StatusPage() {
             getAppOpened().then((appOpened) => { 
                 console.log(appOpened);
                 setInfoPanelDisplayed(appOpened !== undefined ? !appOpened : true);
-                setAppOpened(false);
+                setAppOpened(true);
             }); //app opened (true) means don't display the panel
         }
         setPageLoaded(true);
