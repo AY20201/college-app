@@ -6,7 +6,7 @@ An app to make planning activities easier
 
 Even at Dartmouth, a school with just over 4,000 undergrads that most would consider a "small," making friends and seeing them on a regular basis is hard. As a first year, I'd consider this aspect of social life the hardest part of being in college. Even going to our primary dining fall, Foco, at the busiest times every day, I often don't recognize anyone there, and to see friends, I have to text them to schedule meetups.
 
-That's why I created DSocial. Let's say you are close with some of the people on your dorm floor and you want to see them at lunch--but you never do. Instead of hoping to find them every time you walk into the dining hall, DSocial allows you to create an online group with them and post activity plans to that group. If any of them are interested in meeting you, they can simply "like" the activity by pressing a virtual thumbs up. Likes are visible to anyone in the group, and, depending on individual privacy settings, anyone in the group can message some or all activity "likers" via SMS, if you haven't shared contact info already. Activity plans also dissapear after 45 minutes: if they don't get traction, they don't linger there forever. This eliminates the (what I would consider) slightly awkward step of texting the group chat when you feel a little bit lonely and not getting any response half the time. Activities obviously don't apply to lunch only, either. You can post about absolutely anything, from workouts and hikes to games of pool in Collis or your plans to watch an upcoming football game.  
+That's why I created DSocial. Let's say you are close with some of the people on your dorm floor and you want to see them at lunch--but you never do. Instead of hoping to find them every time you walk into the dining hall, DSocial allows you to create an online group with them and post activity plans to that group. If any of them are interested in meeting you, they can simply "like" the activity by pressing a virtual thumbs up. Likes are visible to anyone in the group, and depending on individual privacy settings, anyone in the group can message some or all activity "likers" via SMS, if you haven't shared contact info already. Activity plans also dissapear after 45 minutes: if they don't get traction, they don't linger there forever. This eliminates the (what I would consider) slightly awkward step of texting the group chat when you feel a little bit lonely and not getting any response half the time. Activities obviously don't apply to lunch only, either. You can post about absolutely anything, from workouts and hikes to games of pool in Collis or your plans to watch an upcoming football game.  
 
 <br/>
 <table>
@@ -52,4 +52,22 @@ subcomponents or helper methods for the other files.
 
 ## Installation
 
-There is currently no easy way to distribute the app to the public without releasing it on the App Store, which I do not feel ready to do yet and costs $100. I hope the app can be publicly availiable soon.
+First, install [Node.js](https://nodejs.org/en) on your computer.
+
+Clone this repository with the command below:
+```
+git clone https://github.com/AY20201/college-app
+```
+After cloning the repository, run the command below in your terminal with the project root folder open:
+```
+npx expo run:ios
+```
+If running this project on a Mac, press the "i" key to open IOS simulator, which will prompt you to install the Expo Go app. Press yes. Once installed, the app will run.
+
+The project may also work on an Android device, but I have not tested it.
+
+Without installing and running the project's source code, there is currently no easy way to distribute the app to the public without releasing it on the App Store, which I do not feel ready to do yet and costs $100. I hope the app can be publicly availiable in a more accessible format soon.
+
+## Other links
+
+Check out my [project portfolio](https://ay20201.github.io/portfolio/), a webpage that describes several of my other projects and provides links to their Github repos and store pages.

@@ -4,7 +4,6 @@ import { router, useLocalSearchParams } from 'expo-router';
 import React, { useCallback, useState } from "react";
 import { FlatList, RefreshControl, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { getJoinRequests } from './detail-page';
 
 export const addJoinRequest = async(groupId: string, userId: string, userName: string, accept?: boolean, multiple?: boolean) => {
     try {
@@ -23,6 +22,24 @@ export const addJoinRequest = async(groupId: string, userId: string, userName: s
     } catch (err) {
         console.error("Request failed:", err);
     }
+}
+
+export const getJoinRequests = async(groupId: string) => {
+    try {
+        console.log(groupId);
+        const res = await fetch(`https://alxy24.pythonanywhere.com/join_requests?group_id=${groupId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const json = await res.json();
+        console.log(json);
+        return json["results"];
+    } catch (err) {
+        console.error("Request failed:", err);
+    }
+    return [];
 }
 
 export default function JoinRequestsPage(){

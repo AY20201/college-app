@@ -54,6 +54,24 @@ export const getUserData = async (): Promise<UserData | null> => {
     }
 };
 
+export const setAppOpened = async(appOpened : boolean) => {
+    try {
+        AsyncStorage.setItem('appOpened', String(appOpened));
+    } catch (e) {
+        console.log("Error storing using data " + e);
+    }
+}
+
+export const getAppOpened = async() => {
+    try {
+        const appOpened = await AsyncStorage.getItem('appOpened');
+        console.log(appOpened);
+        return appOpened === "true";
+    } catch (e) {
+        console.log("Error reading app opened data " + e);
+    }
+}
+
 export const logout = async() => {
     try {
         AsyncStorage.removeItem('user');

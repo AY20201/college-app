@@ -8,7 +8,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { addJoinRequest } from './join-requests-page';
+import { addJoinRequest, getJoinRequests } from './join-requests-page';
 
 export function formatClassYear(name: string, email: string){
     const splitEmail = email.split("@");
@@ -53,24 +53,6 @@ const deleteGroup = async(groupId: string) => {
     } catch (err) {
         console.error("Request failed:", err);
     }
-}
-
-export const getJoinRequests = async(groupId: string) => {
-    try {
-        console.log(groupId);
-        const res = await fetch(`https://alxy24.pythonanywhere.com/join_requests?group_id=${groupId}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-        const json = await res.json();
-        console.log(json);
-        return json["results"];
-    } catch (err) {
-        console.error("Request failed:", err);
-    }
-    return [];
 }
 
 export default function DetailPage() {

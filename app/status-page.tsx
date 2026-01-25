@@ -1,4 +1,5 @@
-import { useUser } from '@/components/user-methods';
+import { InfoPanel } from '@/components/info-panel';
+import { getAppOpened, setAppOpened, useUser } from '@/components/user-methods';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
 import { useFocusEffect } from '@react-navigation/native';
@@ -37,6 +38,7 @@ export default function StatusPage() {
     const [groups, setGroups] = useState<Group[]>([]);
     const [pageLoaded, setPageLoaded] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
+    const [infoPanelDisplayed, setInfoPanelDisplayed] = useState(false);
     //const [groupCount, setGroupCount] = useState(0);
     const { getUserGroups, getUserProperty, addUserGroup } = useUser();
 
@@ -166,7 +168,15 @@ export default function StatusPage() {
         } else {
             getGroups();
         }
+        if(!pageLoaded){
+            getAppOpened().then((appOpened) => { 
+                console.log(appOpened);
+                setInfoPanelDisplayed(appOpened !== undefined ? !appOpened : true);
+                setAppOpened(false);
+            }); //app opened (true) means don't display the panel
+        }
         setPageLoaded(true);
+        
     }, []);
     
     useFocusEffect(
@@ -222,6 +232,9 @@ export default function StatusPage() {
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
+            {infoPanelDisplayed && 
+                <InfoPanel closePanel={() => setInfoPanelDisplayed(false)}/>
+            }
         </SafeAreaProvider>
     );
 }
