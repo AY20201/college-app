@@ -252,6 +252,11 @@ export default function GroupBox({ group, addActivity }: GroupBoxProps) {
             <FlatList
                 data={localActivityRequests}
                 renderItem={({ item }) => <ActivityBox request={item}/>}
+                // ListFooterComponent={
+                // <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', height: 30, marginTop: -10}}>
+                //     <Entypo name="chevron-up" size={40} color="rgb(111, 111, 111, 0.7)" />
+                // </View>
+                // }
             />
             <Animated.View style={[animatedStyle, { overflow: 'hidden' }]}>
                 {isAdding &&
@@ -326,7 +331,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 25,
         paddingVertical: 20,
         alignItems: 'center',
-        color: 'rgb(255, 255, 255)'
+        color: 'rgb(255, 255, 255)',
+        borderWidth: 1.5,
+        borderColor: 'rgb(111, 111, 111)',
     },
     requestButton: {
         height: 50,
