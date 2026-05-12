@@ -30,7 +30,7 @@
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png",
-      "publicPath": "/your-repo-name/"
+      "publicPath": "/college-app/"
     },
     "plugins": [
       "expo-router",
