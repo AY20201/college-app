@@ -50,6 +50,10 @@ As for the technical design of the app, I wrote the frontend with React Native (
 folder of this project is it's own page, with files in the /components folder containing smaller
 subcomponents or helper methods for the other files.
 
+## Deployment
+
+The app is currently deployed through a web build at [https://ay20201.github.io/college-app/]. Efforts to fix a Google Auth login issue that prevents users from signing in is ongoing and should be completed soon.
+
 ## Installation
 
 First, install [Node.js](https://nodejs.org/en) on your computer.
