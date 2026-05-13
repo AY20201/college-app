@@ -1,7 +1,10 @@
 import { UserProvider } from '@/components/user-methods';
 import * as Font from 'expo-font';
 import { Stack } from "expo-router";
+import * as WebBrowser from 'expo-web-browser';
 import React, { useEffect, useState } from 'react';
+
+WebBrowser.maybeCompleteAuthSession();
 
 export default function RootLayout() {
     const [appIsReady, setAppIsReady] = useState(false);
