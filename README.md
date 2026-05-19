@@ -52,7 +52,10 @@ subcomponents or helper methods for the other files.
 
 ## Deployment
 
-The app is currently deployed through a web build at [https://ay20201.github.io/college-app/]. Efforts to fix a Google Auth login issue that prevents users from signing in is ongoing and should be completed soon.
+The app is currently deployed through a web build at [https://ay20201.github.io/college-app/]. Efforts to fix a Google Auth login issue that prevents users from signing in are ongoing and should be completed soon.
+
+Update 5/19:
+I decided to disable Google Authentication on the web build for how as I have not yet been able to fix a "page not found" issue that occurs when trying to sign in on Github pages (as the project was configued as a mobile app). Several icons do not render correctly on the web build either, and there is an issue when making requests to the backend server that I aim to fix as soon as I can.
 
 ## Installation
 
